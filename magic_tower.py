@@ -10,24 +10,28 @@ class Game():
         self.screen = pygame.display.set_mode((1200, 800))
         self.clock = pygame.time.Clock()
         self.running = False
+        self.dt = 0
 
 
     def run(self):
         running = True
-        role = Role(self.screen)
+        role = Role(self)
         map = Map(self)
 
 
         while running:
+            self.screen.fill('black')
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-            self.screen.fill('black')
-            role.draw()
+            
             map.update()
+
+            role.update()
             
             pygame.display.flip()
-            dt = self.clock.tick(60) / 1000
+            pygame.display.set_caption(str(self.clock.get_fps()))
+            self.clock.tick(15) 
 
 
 game = Game()
