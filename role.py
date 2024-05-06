@@ -34,7 +34,6 @@ class Role():
 
     def check_wall(self, x, y):
         flag = (x, y) not in self.map.world_map
-        print(flag)
         return flag
         
     
