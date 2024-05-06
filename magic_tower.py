@@ -18,7 +18,6 @@ class Game():
         role = Role(self)
         map = Map(self)
 
-
         while running:
             self.screen.fill('black')
             for event in pygame.event.get():
