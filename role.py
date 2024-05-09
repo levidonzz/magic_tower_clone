@@ -1,20 +1,56 @@
 import pygame
+import time
+import random
 
 from setting import *
 from map import Map
 
 
 class Role():
-    def __init__(self, game):
+    def __init__(self, game, name, path):
         self.pos_x = 120
         self.pos_y = 120
         self.game = game
+        self.name = name
+        self.path = path
         self.draw()
         self.map = Map(game)
+
+        # player attributes
+        self.health = HEALTH
+
     
+    def fight(self, monster):
+        while True:
+            if self.health <= 0:
+                print(f"You are been defeated by [{monster.name}]")
+                break
+            if monster.attributes["health"] <= 0:
+                print(f"You are been defeated the monster [{monster.name}]")
+                break
+
+            player_hurt = random.randint(0, 10)
+            monster.attributes["health"] -= player_hurt
+            print(f"You dealt {player_hurt} damage to {monster.name}")
+
+            time.sleep(0.5)
+
+            monster_hurt = random.randint(0, 10)
+            self.health -= monster_hurt
+            print(f"{monster.name} dealth {monster_hurt} damage to You")
+
 
     def draw(self):
-        pygame.draw.rect(self.game.screen, 'red', (self.pos_x, self.pos_y, BLOCK_SIZE, BLOCK_SIZE), BLOCK_SIZE)
+        temp_player = pygame.image.load(self.path).convert_alpha()
+        player = pygame.transform.scale(temp_player, (BLOCK_SIZE, BLOCK_SIZE))
+        pos = (self.pos_x, self.pos_y)
+        self.game.screen.blit(player, pos)
+
+
+    def get_player(self):
+        temp_player = pygame.image.load(self.path).convert_alpha()
+        player = pygame.transform.scale(temp_player, (BLOCK_SIZE, BLOCK_SIZE))
+        return player
 
     
     def move(self):
