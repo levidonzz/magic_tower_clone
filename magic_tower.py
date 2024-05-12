@@ -1,13 +1,15 @@
 import pygame
+import sys
 
-from role import Role
 from map import Map
+from player import Player
 from setting import *
-from sprite.sprite import Monster
+from object_renderer import ObjectRenderer
+from object_handle import ObjectHandle
 from fight_panel import FightPanel
 
 
-class Game():
+class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((1200, 800))
@@ -15,48 +17,43 @@ class Game():
         self.running = False
         self.dt = 0
 
+        self.new_game()
 
-    def draw(self):
-        # dest = (SCREEN_WIDTH // 2 - 200, SCREEN_HEIGHT // 2 - 200)
-        # monster = Monster(self, 'test_monster', 'resources/house.png', dest)
-        # monster.draw()
-        pass
+    
+    def new_game(self):
+        self.map = Map(self)
+        self.player = Player(self)
+        self.object_renderer = ObjectRenderer(self)
+        self.object_handle = ObjectHandle(self)
+        self.fight_panel = FightPanel(self)
+
+    
+    def update(self):
+        self.map.update()
+        self.player.update()
+        self.object_handle.update()
+
+        self.clock.tick(60)
+        pygame.display.flip()
+        pygame.display.set_caption(f"{self.clock.get_fps() :.1f}")
+
+    
+    def check_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                pygame.quit()
+                sys.exit()
+
         
-
+    def draw(self):
+        self.object_renderer.draw()
+                
+        
     def run(self):
-        running = True
-        role = Role(self, 'Joe', 'resources/player.png')
-        map = Map(self)
-        all_sprites = pygame.sprite.Group()
-        fight_panel = FightPanel(self)
-
-        # init monster
-        attributes = {
-            "health": 100,
-        }
-        temp_monster = pygame.image.load('resources/house.png').convert_alpha()
-        monster_image = pygame.transform.scale((temp_monster), (BLOCK_SIZE * 2, BLOCK_SIZE * 2))
-        monster = Monster(game, 'yaoguai', 'resources/house.png', (fight_panel.panel.get_rect().right - 100, 150), attributes)
-
-        while running:
-            self.screen.fill('black')
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-            
-            map.update()
-            role.update()
+        while True:
+            self.check_events()
+            self.update()
             self.draw()
-            monster.draw()
-            fight_panel.draw()
-            all_sprites.update()
-            all_sprites.draw(self.screen)
-            
-            pygame.display.flip()
-            pygame.display.set_caption(str(self.clock.get_fps()))
-            
-            role.fight(monster)
-            self.clock.tick(15) 
 
 
 game = Game()
