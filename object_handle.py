@@ -8,12 +8,16 @@ class ObjectHandle:
         self.game = game
         self.monster_path = 'resources/monsters/'
         self.monster_group = pygame.sprite.Group()
+        self.monsters = {}
         self.monster_pos = []
 
     
     def add_monster(self):
         self.monster_group.add(Monster(self.game, self.monster_path + 'dog1.png', (200, 200), 'Dog1'))
         self.monster_group.add(Monster(self.game, self.monster_path + 'dog2.png', (400, 200), 'Dog2'))
+
+        for monster in self.monster_group.sprites():
+            self.monsters[monster.rect] = monster.name
 
 
     def update(self):

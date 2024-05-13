@@ -13,12 +13,18 @@ class Player:
 
         self.fight_flag = False
 
+        self.move_delay = 0
+        self.move_cooldown = 0.5
 
-    def fight(self):
-        print('fight is started')
+
+    def fight(self, monster):
+        self.game.fight_panel.draw()
+        print('fighting...')
+        print(monster)
         time.sleep(2)
-        print('fight is over, you win')
+        print('fight is over')
         self.fight_flag = False
+        self.pos_x += BLOCK_SIZE
 
 
     def check_sprite(self, x, y):
@@ -28,11 +34,18 @@ class Player:
     def check_sprite_collision(self):
         if self.check_sprite(self.pos_x, self.pos_y):
             self.fight_flag = True
-            self.game.fight_panel.draw()
-            self.fight()
+            monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
+            self.fight(monster)
+            self.move_delay = self.move_cooldown
+
+
 
 
     def move(self):
+        if self.move_delay > 0:
+            self.move_delay -= self.game.dt
+            return
+
         if not self.fight_flag:
             dx, dy = 0, 0
             keys = pygame.key.get_pressed()

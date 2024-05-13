@@ -12,8 +12,5 @@ class FightPanel(pygame.Surface):
         
 
     def draw(self):
+        self.fill('gray')
         self.game.screen.blit(self, (self.x, self.y))
-
-    
-    # def update(self):
-    #     self.draw()

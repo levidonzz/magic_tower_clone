@@ -54,6 +54,7 @@ class Game:
             self.check_events()
             self.update()
             self.draw()
+            self.dt = self.clock.tick(60) / 1000
 
 
 game = Game()
