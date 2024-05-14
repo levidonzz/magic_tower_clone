@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 
 from setting import *
 
@@ -17,35 +18,36 @@ class Player:
         self.move_cooldown = 0.5
 
 
-    def fight(self, monster):
-        self.game.fight_panel.draw()
-        print('fighting...')
-        print(monster)
-        time.sleep(2)
-        print('fight is over')
-        self.fight_flag = False
-        self.pos_x += BLOCK_SIZE
+    def check_fight(self):
+        if self.fight_flag == True:
+            self.fight()
 
 
-    def check_sprite(self, x, y):
-        return (x, y) in self.game.object_handle.monster_pos
+    def fight(self):
+        player_damage = random.randint(0, 10)
+        monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
+        monster.health -= player_damage
+        print(f'You dealt {player_damage} to {monster.name}, {monster.name} health: [{monster.health}]')
+        time.sleep(1)
+        monster_damage = random.randint(0, 15)
+        self.health -= monster_damage
+        print(f'{monster.name} dealt {monster_damage} to You, Your health [{self.health}]')
+        print('----------------------------------------------')
+
+        if self.health <= 0 or monster.health <= 0:
+            self.fight_flag = False 
+            print('Game Over...')
     
 
-    def check_sprite_collision(self):
-        if self.check_sprite(self.pos_x, self.pos_y):
-            self.fight_flag = True
+    def check_monster(self):
+        if (self.pos_x, self.pos_y) in self.game.object_handle.monsters.keys():
             monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
-            self.fight(monster)
-            self.move_delay = self.move_cooldown
+            self.fight_flag = True
 
-
+            return monster
 
 
     def move(self):
-        if self.move_delay > 0:
-            self.move_delay -= self.game.dt
-            return
-
         if not self.fight_flag:
             dx, dy = 0, 0
             keys = pygame.key.get_pressed()
@@ -84,4 +86,5 @@ class Player:
 
     def update(self):
         self.move()
-        self.check_sprite_collision()
+        self.check_monster()
+        self.check_fight()

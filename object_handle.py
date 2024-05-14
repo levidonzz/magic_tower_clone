@@ -17,7 +17,7 @@ class ObjectHandle:
         self.monster_group.add(Monster(self.game, self.monster_path + 'dog2.png', (400, 200), 'Dog2'))
 
         for monster in self.monster_group.sprites():
-            self.monsters[monster.rect] = monster.name
+            self.monsters[monster.rect] = monster
 
 
     def update(self):

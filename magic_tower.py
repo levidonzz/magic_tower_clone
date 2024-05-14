@@ -31,8 +31,10 @@ class Game:
     def update(self):
         self.map.update()
         self.player.update()
-        self.object_handle.update()
+        if not self.player.fight_flag:
+            self.check_events()
 
+        self.object_handle.update()
         self.clock.tick(60)
         pygame.display.flip()
         pygame.display.set_caption(f"{self.clock.get_fps() :.1f}")
@@ -47,6 +49,8 @@ class Game:
         
     def draw(self):
         self.object_renderer.draw()
+        if self.player.fight_flag:
+            self.fight_panel.draw()
                 
         
     def run(self):

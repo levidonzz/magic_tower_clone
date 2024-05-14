@@ -12,6 +12,7 @@ class Monster(pygame.sprite.Sprite):
         self.rect = pos
         self.name = name
         self.image = self.get_image()
+        self.health = 20
 
 
     def get_image(self):
