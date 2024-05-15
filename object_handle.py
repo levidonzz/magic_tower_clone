@@ -10,19 +10,21 @@ class ObjectHandle:
         self.monster_group = pygame.sprite.Group()
         self.monsters = {}
         self.monster_pos = []
+        self.current_monster = None
+
+        self.add_monster()
+        self.get_sprite_pos()
 
     
     def add_monster(self):
-        self.monster_group.add(Monster(self.game, self.monster_path + 'dog1.png', (200, 200), 'Dog1'))
-        self.monster_group.add(Monster(self.game, self.monster_path + 'dog2.png', (400, 200), 'Dog2'))
-
-        for monster in self.monster_group.sprites():
-            self.monsters[monster.rect] = monster
-
-
-    def update(self):
-        self.add_monster()
-        self.get_sprite_pos()
+        monster_data = [
+            (self.monster_path + 'dog1.png', (200, 200), 'Dog1', 20),
+            (self.monster_path + 'dog2.png', (400, 200), 'Dog2', 50),
+        ]
+        for path, pos, name, health in monster_data:
+            monster = Monster(self.game, path, pos, name, health)
+            self.monster_group.add(monster)
+            self.monsters[pos] = monster
 
     
     def get_sprite_pos(self):

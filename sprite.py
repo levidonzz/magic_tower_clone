@@ -5,14 +5,15 @@ from setting import *
 
 
 class Monster(pygame.sprite.Sprite):
-    def __init__(self, game, path, pos, name):
+    def __init__(self, game, path, pos, name, health):
         pygame.sprite.Sprite.__init__(self)
         self.game = game
         self.path = path
         self.rect = pos
         self.name = name
+        self.health = health
         self.image = self.get_image()
-        self.health = 20
+
 
 
     def get_image(self):

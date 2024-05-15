@@ -13,38 +13,45 @@ class Player:
         self.health = PLAYER_HEALTH
 
         self.fight_flag = False
+        self.encountered_monster = None
 
         self.move_delay = 0
         self.move_cooldown = 0.5
 
 
     def check_fight(self):
-        if self.fight_flag == True:
+        if self.fight_flag:
             self.fight()
 
 
     def fight(self):
         player_damage = random.randint(0, 10)
-        monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
+        monster = self.encountered_monster
         monster.health -= player_damage
         print(f'You dealt {player_damage} to {monster.name}, {monster.name} health: [{monster.health}]')
         time.sleep(1)
         monster_damage = random.randint(0, 15)
         self.health -= monster_damage
         print(f'{monster.name} dealt {monster_damage} to You, Your health [{self.health}]')
+
+        if monster.health <= 0:
+            del(self.game.object_handle.monsters[(self.pos_x, self.pos_y)])
+            self.fight_flag = False
+            self.health = 50
+        if self.health <= 0:
+            print('You are dead. ----- Game Over -----')
+            self.fight_flag = False
+            self.health = 50
+
+        
         print('----------------------------------------------')
 
-        if self.health <= 0 or monster.health <= 0:
-            self.fight_flag = False 
-            print('Game Over...')
-    
 
     def check_monster(self):
         if (self.pos_x, self.pos_y) in self.game.object_handle.monsters.keys():
-            monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
+            self.encountered_monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
             self.fight_flag = True
-
-            return monster
+        else: pass
 
 
     def move(self):
