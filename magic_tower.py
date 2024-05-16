@@ -58,6 +58,7 @@ class Game:
             self.draw()
             if self.player.fight_flag:
                 self.fight_panel.draw()
+
             self.dt = self.clock.tick(60) / 1000
 
 

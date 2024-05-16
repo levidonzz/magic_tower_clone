@@ -14,44 +14,43 @@ class Player:
 
         self.fight_flag = False
         self.encountered_monster = None
+        self.player_damage = None
+        self.monster_damage = None
 
         self.move_delay = 0
         self.move_cooldown = 0.5
 
 
-    def check_fight(self):
-        if self.fight_flag:
-            self.fight()
-
-
     def fight(self):
-        player_damage = random.randint(0, 10)
         monster = self.encountered_monster
-        monster.health -= player_damage
-        print(f'You dealt {player_damage} to {monster.name}, {monster.name} health: [{monster.health}]')
-        time.sleep(1)
-        monster_damage = random.randint(0, 15)
-        self.health -= monster_damage
-        print(f'{monster.name} dealt {monster_damage} to You, Your health [{self.health}]')
 
+        if self.health <= 0:
+            self.fight_flag = False
+            return
         if monster.health <= 0:
             del(self.game.object_handle.monsters[(self.pos_x, self.pos_y)])
+            self.pos_x += BLOCK_SIZE
             self.fight_flag = False
-            self.health = 50
-        if self.health <= 0:
-            print('You are dead. ----- Game Over -----')
-            self.fight_flag = False
-            self.health = 50
+            return
 
-        
-        print('----------------------------------------------')
+        print(self.game.object_handle.monsters)
+
+        self.player_damage = random.randint(0, 10)
+        self.monster_damage = random.randint(0, 15)
+        monster.health -= self.player_damage
+        self.health -= self.monster_damage
+        print(f'You dealt {self.player_damage} to {monster.name}, {monster.name} health: [{monster.health}]')
+        print(f'{monster.name} dealt {self.monster_damage} to You, Your health [{self.health}]')
+        print()
 
 
     def check_monster(self):
         if (self.pos_x, self.pos_y) in self.game.object_handle.monsters.keys():
             self.encountered_monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
             self.fight_flag = True
-        else: pass
+            if self.fight_flag:
+                self.fight()
+
 
 
     def move(self):
@@ -94,4 +93,4 @@ class Player:
     def update(self):
         self.move()
         self.check_monster()
-        self.check_fight()
+
