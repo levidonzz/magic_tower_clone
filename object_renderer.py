@@ -37,8 +37,9 @@ class ObjectRenderer:
     def draw_sprites(self):
         monster_group = self.game.object_handle.monster_group
         monster_group.draw(self.game.screen)
-        # for monster in monster_group:
-        #     self.game.screen.blit(monster.image, monster.pos)
+
+        merchant_group = self.game.object_handle.merchant_group
+        merchant_group.draw(self.game.screen)
 
 
     @staticmethod

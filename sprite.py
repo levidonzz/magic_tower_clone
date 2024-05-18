@@ -31,10 +31,11 @@ class Merchant(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.game = game
         self.path = path
-        self.pos = pos
+        self.rect = pos
         self.name = name
         self.image = self.get_image()
         self.commodity = {}
+        self.overage = OVERAGE
 
     
     def get_image(self):
@@ -42,3 +43,8 @@ class Merchant(pygame.sprite.Sprite):
         image = pygame.transform.scale(image, (BLOCK_SIZE, BLOCK_SIZE))
         return image
     
+
+    def sell(self, goods):
+        if goods.name in self.commodity.keys():
+            self.overage += goods.value
+            del(self.commodity[goods.name])

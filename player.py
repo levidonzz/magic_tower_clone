@@ -3,6 +3,7 @@ import time
 import random
 
 from setting import *
+from sprite import Monster, Merchant
 
 
 class Player:
@@ -21,6 +22,24 @@ class Player:
         self.move_cooldown = 0.5
 
 
+    def check_collision(self):
+        if (self.pos_x, self.pos_y) in self.game.object_handle.barriers.keys():
+            obj = self.game.object_handle.barriers[(self.pos_x, self.pos_y)]
+            if isinstance(obj, Monster):
+                self.encountered_monster = obj
+                self.fight_flag = True
+                self.fight()
+            elif isinstance(obj, Merchant):
+                print('encountered merchant...')
+            
+            print('encountered')
+        
+        else:
+            print('not encountered')
+
+
+
+
     def fight(self):
         monster = self.encountered_monster
 
@@ -28,7 +47,7 @@ class Player:
             self.fight_flag = False
             return
         if monster.health <= 0:
-            del(self.game.object_handle.monsters[(self.pos_x, self.pos_y)])
+            del(self.game.object_handle.barriers[(self.pos_x, self.pos_y)])
             self.game.object_handle.monster_group.remove(monster)
             self.fight_flag = False
             self.health = PLAYER_HEALTH
@@ -42,12 +61,12 @@ class Player:
         self.health -= self.monster_damage
 
 
-    def check_monster(self):
-        if (self.pos_x, self.pos_y) in self.game.object_handle.monsters.keys():
-            self.encountered_monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
-            self.fight_flag = True
-            if self.fight_flag:
-                self.fight()
+    # def check_monster(self):
+    #     if (self.pos_x, self.pos_y) in self.game.object_handle.monsters.keys():
+    #         self.encountered_monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
+    #         self.fight_flag = True
+    #         if self.fight_flag:
+    #             self.fight()
 
 
 
@@ -90,5 +109,5 @@ class Player:
 
     def update(self):
         self.move()
-        self.check_monster()
+        self.check_collision()
 
