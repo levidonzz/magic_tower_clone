@@ -31,6 +31,8 @@ class FightPanel(pygame.Surface):
         player_fight_text = font.render(str(f'[{player.player_damage}] for {monster.name}'), True, (0, 0, 0))
         monster_fight_text = font.render(str(f'[{player.monster_damage}] for You'), True, (0, 0, 0))
 
+        time.sleep(1)
+
         self.blit(player_fight_text, (150, 300))
         self.blit(monster_fight_text, (150, 330))
 

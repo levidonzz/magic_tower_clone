@@ -29,8 +29,9 @@ class Player:
             return
         if monster.health <= 0:
             del(self.game.object_handle.monsters[(self.pos_x, self.pos_y)])
-            self.pos_x += BLOCK_SIZE
+            self.game.object_handle.monster_group.remove(monster)
             self.fight_flag = False
+            self.health = PLAYER_HEALTH
             return
 
         print(self.game.object_handle.monsters)
@@ -39,9 +40,6 @@ class Player:
         self.monster_damage = random.randint(0, 15)
         monster.health -= self.player_damage
         self.health -= self.monster_damage
-        print(f'You dealt {self.player_damage} to {monster.name}, {monster.name} health: [{monster.health}]')
-        print(f'{monster.name} dealt {self.monster_damage} to You, Your health [{self.health}]')
-        print()
 
 
     def check_monster(self):
