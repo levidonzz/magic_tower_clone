@@ -6,7 +6,9 @@ from player import Player
 from setting import *
 from object_renderer import ObjectRenderer
 from object_handle import ObjectHandle
-from fight_panel import FightPanel
+# from fight_panel import FightPanel
+
+from panel import FightPanel, Merchant
 
 
 class Game:
@@ -26,6 +28,7 @@ class Game:
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.fight_panel = FightPanel(self)
+        self.merchant_panel = Merchant(self)
 
     
     def update(self):
@@ -47,8 +50,6 @@ class Game:
         
     def draw(self):
         self.object_renderer.draw()
-        # if self.player.fight_flag:
-        #     self.fight_panel.draw()
                 
         
     def run(self):
@@ -58,6 +59,8 @@ class Game:
             self.draw()
             if self.player.fight_flag:
                 self.fight_panel.draw()
+            elif self.player.encountered_flag:
+                self.merchant_panel.draw()
 
             self.dt = self.clock.tick(60) / 1000
 

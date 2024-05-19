@@ -14,6 +14,7 @@ class Player:
         self.health = PLAYER_HEALTH
 
         self.fight_flag = False
+        self.encountered_flag = False
         self.encountered_monster = None
         self.player_damage = None
         self.monster_damage = None
@@ -30,14 +31,10 @@ class Player:
                 self.fight_flag = True
                 self.fight()
             elif isinstance(obj, Merchant):
-                print('encountered merchant...')
-            
-            print('encountered')
-        
+                self.encountered_flag = True
+                print('encountered merchant...')        
         else:
             print('not encountered')
-
-
 
 
     def fight(self):

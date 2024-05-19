@@ -4,20 +4,44 @@ import time
 from setting import *
 
 
-class FightPanel(pygame.Surface):
+class Panel(pygame.Surface):
     def __init__(self, game):
-        pygame.Surface.__init__(self, (600, 400))
+        super().__init__((600, 400))
         self.game = game
-        self.x = 300
-        self.y = 200
+        self.pos = (300, 200)
+
+    
+    def draw(self, surface):
+        self.game.screen.blit(surface, self.pos)
+
+
+class Merchant(Panel):
+    def __init__(self, game):
+        super().__init__(game)
+
+    
+    def draw(self):
+        self.fill('white')
+
+        font = pygame.font.Font(None, 20)
+        menu_text = font.render('Menu', True, (0, 0, 0))
+
+        self.blit(menu_text, (100, 50))
+
+        super().draw(self)
         
 
+class FightPanel(Panel):
+    def __init__(self, game):
+        super().__init__(game)
+
+    
     def draw(self):
-        damage_color = pygame.Color(222, 222, 222)
 
         self.fill('gray')
         player = self.game.player
         monster = self.game.player.encountered_monster
+
         player_image = pygame.transform.scale(pygame.image.load('resources/player.png').convert_alpha(), (BLOCK_SIZE, BLOCK_SIZE))
         monster_image = pygame.transform.scale(pygame.image.load(monster.path).convert_alpha(), (BLOCK_SIZE, BLOCK_SIZE))
         heart_image = pygame.image.load('resources/heart.png').convert_alpha()
@@ -45,4 +69,4 @@ class FightPanel(pygame.Surface):
         self.blit(heart_image, (400 - BLOCK_SIZE, 200))
         self.blit(vs_image, (300 - BLOCK_SIZE, 150))
 
-        self.game.screen.blit(self, (self.x, self.y))
+        super().draw(self)    

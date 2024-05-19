@@ -8,13 +8,17 @@ class ObjectHandle:
     def __init__(self, game):
         self.game = game
         self.monster_path = 'resources/monsters/'
+        self.armament_path = 'resources/'
         self.monster_group = pygame.sprite.Group()
         self.merchant_group = pygame.sprite.Group()
+        self.weapon_group = pygame.sprite.Group()
+        self.armor_group = pygame.sprite.Group()
         self.monsters = {}
         self.monster_pos = []
         self.current_monster = None
 
         self.barriers = {}
+        self.armaments = {}
 
         self.add_monster()
         self.get_sprite_pos()
@@ -48,4 +52,21 @@ class ObjectHandle:
 
 
     def add_armament(self):
-        pass
+        armaments_data = [
+            ('small arrow', self.armament_path + 'fire2.jpg', 10, 2, 'weapon', 10),
+            ('middle arrow', self.armament_path + 'fire2.jpg', 10, 2, 'weapon', 15),
+            ('shield', self.armament_path + 'fire2.jpg', 10, 2, 'armor', 20),
+        ]
+        
+        for armament in armaments_data:
+            if armament == 'weapon':
+                name, path, value, amount, sort, hurt = armament
+                weapon = Weapon(self.game, name, path, value, amount, sort, hurt)
+                self.weapon_group.add(weapon)
+                self.armaments[name] = weapon
+            elif armament == 'armor':
+                name, path, value, amount, sort, defense = armament
+                armor = Armor(self.game, name, path, value, amount, sort, defense)
+                self.armor_group.add(armor)
+                self.armaments[name] = armor
+
