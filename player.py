@@ -22,6 +22,10 @@ class Player:
         self.move_delay = 0
         self.move_cooldown = 0.5
 
+    
+    def buy(self):
+        pass
+
 
     def check_collision(self):
         if (self.pos_x, self.pos_y) in self.game.object_handle.barriers.keys():
