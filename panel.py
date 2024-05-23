@@ -10,6 +10,10 @@ class Panel(pygame.Surface):
         self.game = game
         self.pos = (300, 200)
 
+    
+    def draw(self, surface):
+        self.game.screen.blit(surface, self.pos)
+
 
 class Merchant(Panel):
     def __init__(self, game):
@@ -23,8 +27,6 @@ class Merchant(Panel):
         menu_text = font.render('Menu', True, (0, 0, 0))
 
         self.blit(menu_text, (100, 50))
-
-        self.game.screen.blit(self, (100, 100))
 
         super().draw(self)
         
