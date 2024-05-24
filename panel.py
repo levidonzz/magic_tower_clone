@@ -18,16 +18,27 @@ class Panel(pygame.Surface):
 class Merchant(Panel):
     def __init__(self, game):
         super().__init__(game)
-
+    
     
     def draw(self):
         self.fill('white')
 
         font = pygame.font.Font(None, 20)
-        menu_text = font.render('Menu', True, (0, 0, 0))
 
-        self.blit(menu_text, (100, 50))
+        armaments = self.game.object_handle.armaments
+        delta_pos_x = 150
+        init_pos_x = 100
+        for key, value in armaments.items():
+            name, path, value, amount, sort, _ = value.get()
+            image = pygame.transform.scale(pygame.image.load(path).convert_alpha(), (BLOCK_SIZE, BLOCK_SIZE))
+            armament_name = font.render(name, True, 'black')
+            value = font.render(str(value), True, 'black')
+            self.blit(armament_name, (init_pos_x, 180))
+            self.blit(image, (init_pos_x, 200))
+            self.blit(value, (init_pos_x, 250))
+            init_pos_x += delta_pos_x
 
+        print('-------------------------')
         super().draw(self)
         
 

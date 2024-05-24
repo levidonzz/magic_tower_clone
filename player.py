@@ -25,6 +25,7 @@ class Player:
     
     def buy(self):
         # design buy logic
+
         pass
 
 
@@ -63,17 +64,8 @@ class Player:
         self.health -= self.monster_damage
 
 
-    # def check_monster(self):
-    #     if (self.pos_x, self.pos_y) in self.game.object_handle.monsters.keys():
-    #         self.encountered_monster = self.game.object_handle.monsters[(self.pos_x, self.pos_y)]
-    #         self.fight_flag = True
-    #         if self.fight_flag:
-    #             self.fight()
-
-
-
     def move(self):
-        if not self.fight_flag:
+        if not self.fight_flag or not self.encountered_flag:
             dx, dy = 0, 0
             keys = pygame.key.get_pressed()
             if keys[pygame.K_w]:

@@ -23,8 +23,7 @@ class ObjectHandle:
         self.add_monster()
         self.get_sprite_pos()
         self.add_merchant()
-
-        print(self.barriers)
+        self.add_armament()
 
     
     def add_monster(self):
@@ -53,20 +52,18 @@ class ObjectHandle:
 
     def add_armament(self):
         armaments_data = [
-            ('small arrow', self.armament_path + 'fire2.jpg', 10, 2, 'weapon', 10),
-            ('middle arrow', self.armament_path + 'fire2.jpg', 10, 2, 'weapon', 15),
-            ('shield', self.armament_path + 'fire2.jpg', 10, 2, 'armor', 20),
+            ('one sword', self.armament_path + 'one_sword.png', 10, 2, 'weapon', 10),
+            ('two sword', self.armament_path + 'two_sword.png', 10, 2, 'weapon', 15),
+            ('shield', self.armament_path + 'shield.png', 10, 2, 'armor', 20),
         ]
         
         for armament in armaments_data:
-            if armament == 'weapon':
-                name, path, value, amount, sort, hurt = armament
-                weapon = Weapon(self.game, name, path, value, amount, sort, hurt)
-                self.weapon_group.add(weapon)
+            name, path, value, amount, sort, attribute = armament
+            if sort == 'weapon':
+                weapon = Weapon(self.game, name, path, value, amount, sort, attribute)
+                # self.weapon_group.add(weapon)
                 self.armaments[name] = weapon
-            elif armament == 'armor':
-                name, path, value, amount, sort, defense = armament
-                armor = Armor(self.game, name, path, value, amount, sort, defense)
-                self.armor_group.add(armor)
+            elif sort == 'armor':
+                armor = Armor(self.game, name, path, value, amount, sort, attribute)
+                # self.armor_group.add(armor)
                 self.armaments[name] = armor
-
