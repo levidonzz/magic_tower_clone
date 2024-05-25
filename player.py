@@ -22,13 +22,25 @@ class Player:
         self.move_delay = 0
         self.move_cooldown = 0.5
 
-    
-    def buy(self):
-        # design buy logic
+        self.armaments = {}
 
+    
+    def check_buy(self):
+        buttons = self.game.merchant_panel.buttones
+        for button in buttons.items():
+            key, value = button
+            if value.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed().index(0) == 1:
+                self.buy(key)
+
+    
+    def buy(self, armament_name):
+        self.game.object_handle.armaments[armament_name].amount -= 1
+        print(self.game.object_handle.armaments)
+
+    def get_armament(self):
         pass
 
-
+        
     def check_collision(self):
         if (self.pos_x, self.pos_y) in self.game.object_handle.barriers.keys():
             obj = self.game.object_handle.barriers[(self.pos_x, self.pos_y)]
@@ -38,9 +50,10 @@ class Player:
                 self.fight()
             elif isinstance(obj, Merchant):
                 self.encountered_flag = True
-                print('encountered merchant...')        
+                # print('encountered merchant...')
         else:
-            print('not encountered')
+            # print('not encountered')
+            pass
 
 
     def fight(self):
@@ -104,4 +117,5 @@ class Player:
     def update(self):
         self.move()
         self.check_collision()
+        self.check_buy()
 

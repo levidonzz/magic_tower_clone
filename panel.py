@@ -2,6 +2,7 @@ import pygame
 import time
 
 from setting import *
+from button import Button
 
 
 class Panel(pygame.Surface):
@@ -18,7 +19,9 @@ class Panel(pygame.Surface):
 class Merchant(Panel):
     def __init__(self, game):
         super().__init__(game)
-    
+        self.button = Button(self.game)
+        self.buttones = {}
+
     
     def draw(self):
         self.fill('white')
@@ -36,9 +39,11 @@ class Merchant(Panel):
             self.blit(armament_name, (init_pos_x, 180))
             self.blit(image, (init_pos_x, 200))
             self.blit(value, (init_pos_x, 250))
+            self.blit(self.button, (init_pos_x, 280))
+            button = pygame.Rect(init_pos_x + 300, 280 + 200, BLOCK_SIZE, BLOCK_SIZE // 2)
+            self.buttones[name] = button
             init_pos_x += delta_pos_x
 
-        print('-------------------------')
         super().draw(self)
         
 
