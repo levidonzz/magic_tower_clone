@@ -12,12 +12,14 @@ class Player:
         self.pos_x = INIT_POS_X
         self.pos_y = INIT_POS_Y
         self.health = PLAYER_HEALTH
+        self.gold = 100
 
         self.fight_flag = False
         self.encountered_flag = False
         self.encountered_monster = None
         self.player_damage = None
         self.monster_damage = None
+
 
         self.move_delay = 0
         self.move_cooldown = 0.5
@@ -35,7 +37,12 @@ class Player:
     
     def buy(self, armament_name):
         self.game.object_handle.armaments[armament_name].amount -= 1
-        print(self.game.object_handle.armaments)
+        for armament in self.game.object_handle.armaments.values():
+            name, path, value, amount, sort, attribute = armament.get()
+            print(f'name: {name}, amount: {amount}, sort: {sort}')
+
+        print('--------------------------------')
+
 
     def get_armament(self):
         pass

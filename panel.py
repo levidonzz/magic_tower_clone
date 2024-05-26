@@ -21,7 +21,11 @@ class Merchant(Panel):
         super().__init__(game)
         self.button = Button(self.game)
         self.buttones = {}
+        self.shop_open = False
 
+
+    def sell(self, player, item_index):
+        pass
     
     def draw(self):
         self.fill('white')
