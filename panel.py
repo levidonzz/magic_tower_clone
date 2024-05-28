@@ -3,6 +3,7 @@ import time
 
 from setting import *
 from button import Button
+from common import get_player_image
 
 
 class Panel(pygame.Surface):
@@ -14,6 +15,27 @@ class Panel(pygame.Surface):
     
     def draw(self, surface):
         self.game.screen.blit(surface, self.pos)
+
+
+class PlayerInfo(pygame.Surface):
+    def __init__(self, game):
+        super().__init__((200, 1000))
+        self.game = game
+        self.pos = (1000, 0)
+
+    def draw(self):
+        self.fill('white')
+        font = pygame.font.Font(None, 20)
+
+        player_image = get_player_image()
+        self.blit(player_image, (1 * BLOCK_SIZE, 2 * BLOCK_SIZE))
+
+        attribute_text = font.render('Attribute', True, 'black')
+        name_text = font.render(f'Health: {self.game.player.health}, Gold: {self.game.player.gold}', True, 'black')
+        self.blit(attribute_text, (1 * BLOCK_SIZE, 5 * BLOCK_SIZE))
+        self.blit(name_text, (0 * BLOCK_SIZE, 6 * BLOCK_SIZE))
+
+        self.game.screen.blit(self, self.pos)
 
 
 class Merchant(Panel):
@@ -39,10 +61,10 @@ class Merchant(Panel):
             name, path, value, amount, sort, _ = value.get()
             image = pygame.transform.scale(pygame.image.load(path).convert_alpha(), (BLOCK_SIZE, BLOCK_SIZE))
             armament_name = font.render(name, True, 'black')
-            value = font.render(str(value), True, 'black')
+            amount = font.render(str(amount), True, 'black')
             self.blit(armament_name, (init_pos_x, 180))
             self.blit(image, (init_pos_x, 200))
-            self.blit(value, (init_pos_x, 250))
+            self.blit(amount, (init_pos_x, 250))
             self.blit(self.button, (init_pos_x, 280))
             button = pygame.Rect(init_pos_x + 300, 280 + 200, BLOCK_SIZE, BLOCK_SIZE // 2)
             self.buttones[name] = button

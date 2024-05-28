@@ -27,7 +27,6 @@ class ObjectRenderer:
                     self.game.screen.blit(textures[2], (i * BLOCK_SIZE, j * BLOCK_SIZE))
 
 
-
     def draw_player(self):
         player_image = self.get_texture('resources/player.png', (BLOCK_SIZE, BLOCK_SIZE))
         player_pos = (self.game.player.pos_x, self.game.player.pos_y)

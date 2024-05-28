@@ -8,7 +8,7 @@ from object_renderer import ObjectRenderer
 from object_handle import ObjectHandle
 # from fight_panel import FightPanel
 
-from panel import FightPanel, Merchant
+from panel import FightPanel, Merchant, PlayerInfo
 
 
 class Game:
@@ -29,6 +29,7 @@ class Game:
         self.object_renderer = ObjectRenderer(self)
         self.fight_panel = FightPanel(self)
         self.merchant_panel = Merchant(self)
+        self.player_info = PlayerInfo(self)
 
     
     def update(self):
@@ -48,6 +49,7 @@ class Game:
         
     def draw(self):
         self.object_renderer.draw()
+        self.player_info.draw()
                 
         
     def run(self):
