@@ -22,7 +22,7 @@ class Weapon(Armanent):
 
     
     def get(self):
-        return self.name, self.path, self.value, self.amount, self.sort, self.hurt
+        return self.name, self.path, self.value, self.amount, self.sort, self.hurt        
 
 
 class Armor(Armanent):

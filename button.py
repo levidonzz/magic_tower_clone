@@ -4,11 +4,11 @@ from setting import *
 
 
 class Button(pygame.Surface):
-    def __init__(self, game):
+    def __init__(self, game, fill='gray'):
         super().__init__((40, 20))
         self.game = game
         self.rect = self.get_rect()
-        self.fill('gray')
+        self.fill(fill)
         image = pygame.image.load('resources/buy.png')
         self.blit(image, (0, 0))
 

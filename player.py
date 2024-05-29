@@ -4,6 +4,7 @@ import random
 
 from setting import *
 from sprite import Monster, Merchant
+from armament import Weapon, Armor
 
 
 class Player:
@@ -25,26 +26,37 @@ class Player:
         self.move_cooldown = 0.5
 
         self.armaments = {}
+        self.purchased_items = {}
+        # self.add_armament()
 
     
     def check_buy(self):
         buttons = self.game.merchant_panel.buttones
-        for button in buttons.items():
-            key, value = button
-            if value.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed().index(0) == 1:
-                self.buy(key)
+        for button, rect in buttons.items():
+            if rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed().index(0) == 1:
+                if button not in self.purchased_items:
+                    self.buy(button)
 
     
     def buy(self, armament_name):
-        self.game.object_handle.armaments[armament_name].amount -= 1
-        for armament in self.game.object_handle.armaments.values():
+        armament = self.game.object_handle.armaments[armament_name]
+        if armament:
             name, path, value, amount, sort, attribute = armament.get()
-            print(f'name: {name}, amount: {amount}, sort: {sort}')
+            if self.gold >= value and name not in self.purchased_items:
+                self.gold -= value
+                self.armaments[name] = armament
+                if attribute == 'weapon':
+                    amount -= 1
+                    self.armaments[name] = Weapon(self.game, name,  path, value, amount, sort, attribute)
+                elif attribute == 'armor':
+                    amount -= 1
+                    self.armaments[name] = Armor(self.game, name,  path, value, amount, sort, attribute)
+                self.purchased_items[name] = True
+            elif self.gold < value:
+                print('money is less')
+        
 
-        print('--------------------------------')
-
-
-    def get_armament(self):
+    def add_armament(self):
         pass
 
         

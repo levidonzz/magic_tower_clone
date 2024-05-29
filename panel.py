@@ -3,7 +3,7 @@ import time
 
 from setting import *
 from button import Button
-from common import get_player_image
+from common import get_player_image, get_armament_image
 
 
 class Panel(pygame.Surface):
@@ -34,6 +34,17 @@ class PlayerInfo(pygame.Surface):
         name_text = font.render(f'Health: {self.game.player.health}, Gold: {self.game.player.gold}', True, 'black')
         self.blit(attribute_text, (1 * BLOCK_SIZE, 5 * BLOCK_SIZE))
         self.blit(name_text, (0 * BLOCK_SIZE, 6 * BLOCK_SIZE))
+
+        armaments = self.game.player.armaments
+        if armaments:
+            i = 0
+            for armament in armaments.values():
+                name, path, value, amount, sort, attribute = armament.get()
+                image = get_armament_image(path)
+                self.blit(image, (i * BLOCK_SIZE, 7 * BLOCK_SIZE))
+                armament_text = font.render(name, True, 'black')
+                self.blit(armament_text, (i * BLOCK_SIZE, 8 * BLOCK_SIZE))
+                i += 1.5
 
         self.game.screen.blit(self, self.pos)
 
@@ -67,7 +78,10 @@ class Merchant(Panel):
             self.blit(amount, (init_pos_x, 250))
             self.blit(self.button, (init_pos_x, 280))
             button = pygame.Rect(init_pos_x + 300, 280 + 200, BLOCK_SIZE, BLOCK_SIZE // 2)
-            self.buttones[name] = button
+            self.buttones[key] = button
+            if key in self.game.player.purchased_items:
+                button = Button(self.game, 'black')
+                self.blit(button, (init_pos_x, 280))
             init_pos_x += delta_pos_x
 
         super().draw(self)
