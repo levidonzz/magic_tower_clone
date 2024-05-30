@@ -3,7 +3,7 @@ import time
 
 from setting import *
 from button import Button
-from common import get_player_image, get_armament_image
+from common import *
 
 
 class Panel(pygame.Surface):
@@ -30,10 +30,18 @@ class PlayerInfo(pygame.Surface):
         player_image = get_player_image()
         self.blit(player_image, (1 * BLOCK_SIZE, 2 * BLOCK_SIZE))
 
-        attribute_text = font.render('Attribute', True, 'black')
-        name_text = font.render(f'Health: {self.game.player.health}, Gold: {self.game.player.gold}', True, 'black')
-        self.blit(attribute_text, (1 * BLOCK_SIZE, 5 * BLOCK_SIZE))
-        self.blit(name_text, (0 * BLOCK_SIZE, 6 * BLOCK_SIZE))
+        gold_image = load_iamge('resources/gold.png', 80, 40)
+        health_image = load_iamge('resources/health.png', 80, 40)
+        attack_image = load_iamge('resources/attack.png', 80, 40)
+        defense_image = load_iamge('resources/defense.png', 80, 40)
+        buy_image = load_iamge('resources/buy.png', 40, 20)
+        vs_image = load_iamge('resources/vs.png', 60, 30)
+
+        gap = 20
+        self.blit(gold_image, (20, 5 * BLOCK_SIZE + gap))
+        self.blit(health_image, (20, 7 * BLOCK_SIZE))
+        self.blit(attack_image, (20, 8 * BLOCK_SIZE + gap))
+        self.blit(defense_image, (20, 9 * BLOCK_SIZE))
 
         armaments = self.game.player.armaments
         if armaments:
@@ -82,6 +90,10 @@ class Merchant(Panel):
             if key in self.game.player.purchased_items:
                 button = Button(self.game, 'black')
                 self.blit(button, (init_pos_x, 280))
+
+            quit_image = pygame.image.load('resources/quit.png')
+            self.buttones['quit'] = pygame.Rect(480 + 300, 320 + 200, 80, 40)
+            self.blit(quit_image, (480, 320))
             init_pos_x += delta_pos_x
 
         super().draw(self)

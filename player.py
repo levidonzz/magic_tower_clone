@@ -27,15 +27,20 @@ class Player:
 
         self.armaments = {}
         self.purchased_items = {}
-        # self.add_armament()
 
     
     def check_buy(self):
         buttons = self.game.merchant_panel.buttones
         for button, rect in buttons.items():
             if rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed().index(0) == 1:
+                print(pygame.mouse.get_pos())
+                if button == 'quit':
+                    self.encountered_flag = False
+                    self.pos_x += BLOCK_SIZE
+                    return
                 if button not in self.purchased_items:
                     self.buy(button)
+            
 
     
     def buy(self, armament_name):
