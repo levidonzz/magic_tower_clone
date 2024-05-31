@@ -16,7 +16,12 @@ def get_armament_image(path):
     return image
 
 
-def load_iamge(path, width, height):
+def load_iamge(path, width=BLOCK_SIZE, height=BLOCK_SIZE):
     image = pygame.image.load(path).convert_alpha()
     image = pygame.transform.scale(image, (width, height))
     return image
+
+
+def set_text(text, size=20, color='black'):
+    font = pygame.font.Font(None, size)
+    return font.render(str(text), True, color)

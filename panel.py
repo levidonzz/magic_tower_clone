@@ -25,7 +25,7 @@ class PlayerInfo(pygame.Surface):
 
     def draw(self):
         self.fill('white')
-        font = pygame.font.Font(None, 20)
+        font = pygame.font.Font(None, 30)
 
         player_image = get_player_image()
         self.blit(player_image, (1 * BLOCK_SIZE, 2 * BLOCK_SIZE))
@@ -37,11 +37,26 @@ class PlayerInfo(pygame.Surface):
         buy_image = load_iamge('resources/buy.png', 40, 20)
         vs_image = load_iamge('resources/vs.png', 60, 30)
 
+        player = self.game.player
+
         gap = 20
-        self.blit(gold_image, (20, 5 * BLOCK_SIZE + gap))
-        self.blit(health_image, (20, 7 * BLOCK_SIZE))
+        gold = font.render(str(player.gold), True, 'black')
+        health = font.render(str(player.health), True, 'black')
+        attack = font.render(str(player.attack), True, 'black')
+        defense = font.render(str(player.defense), True, 'black')
+
+        self.blit(gold_image, (20, 5 * BLOCK_SIZE))
+        self.blit(gold, (110, 5 * BLOCK_SIZE + 10))
+
+        self.blit(health_image, (20, 7 * BLOCK_SIZE + gap))
+        self.blit(health, (110, 7 * BLOCK_SIZE + gap + 10))
+
         self.blit(attack_image, (20, 8 * BLOCK_SIZE + gap))
-        self.blit(defense_image, (20, 9 * BLOCK_SIZE))
+        self.blit(attack, (110, 8 * BLOCK_SIZE + gap + 10))
+
+        self.blit(defense_image, (20, 9 * BLOCK_SIZE + gap))
+        self.blit(defense, (110, 9 * BLOCK_SIZE + gap + 10))
+
 
         armaments = self.game.player.armaments
         if armaments:
@@ -49,9 +64,7 @@ class PlayerInfo(pygame.Surface):
             for armament in armaments.values():
                 name, path, value, amount, sort, attribute = armament.get()
                 image = get_armament_image(path)
-                self.blit(image, (i * BLOCK_SIZE, 7 * BLOCK_SIZE))
-                armament_text = font.render(name, True, 'black')
-                self.blit(armament_text, (i * BLOCK_SIZE, 8 * BLOCK_SIZE))
+                self.blit(image, (i * BLOCK_SIZE, 12 * BLOCK_SIZE))
                 i += 1.5
 
         self.game.screen.blit(self, self.pos)
@@ -80,10 +93,10 @@ class Merchant(Panel):
             name, path, value, amount, sort, _ = value.get()
             image = pygame.transform.scale(pygame.image.load(path).convert_alpha(), (BLOCK_SIZE, BLOCK_SIZE))
             armament_name = font.render(name, True, 'black')
-            amount = font.render(str(amount), True, 'black')
+            value = font.render(str(value), True, 'black')
             self.blit(armament_name, (init_pos_x, 180))
             self.blit(image, (init_pos_x, 200))
-            self.blit(amount, (init_pos_x, 250))
+            self.blit(value, (init_pos_x, 250))
             self.blit(self.button, (init_pos_x, 280))
             button = pygame.Rect(init_pos_x + 300, 280 + 200, BLOCK_SIZE, BLOCK_SIZE // 2)
             self.buttones[key] = button
@@ -110,31 +123,37 @@ class FightPanel(Panel):
         player = self.game.player
         monster = self.game.player.encountered_monster
 
-        player_image = pygame.transform.scale(pygame.image.load('resources/player.png').convert_alpha(), (BLOCK_SIZE, BLOCK_SIZE))
-        monster_image = pygame.transform.scale(pygame.image.load(monster.path).convert_alpha(), (BLOCK_SIZE, BLOCK_SIZE))
-        heart_image = pygame.image.load('resources/heart.png').convert_alpha()
-        vs_image = pygame.image.load('resources/vs.png').convert_alpha()
+        player_image = get_player_image()
+        monster_image = load_iamge(monster.path, 2 * BLOCK_SIZE, 2 * BLOCK_SIZE)
+        heart_image = load_iamge('resources/heart.png')
+        vs_image = load_iamge('resources/vs.png', 120, 60)
 
-        font = pygame.font.Font(None, 20)
+        font = pygame.font.Font(None, 30)
 
-        player_health = font.render(str(f'Your Health: {player.health}'), True, (0, 0, 0))
-        monster_health = font.render(str(f'Monster Health: {player.encountered_monster.health}'), True, (0, 0, 0))
+        player_health = font.render(str(player.health), True, (0, 0, 0))
+        monster_health = font.render(str(player.encountered_monster.health), True, (0, 0, 0))
 
         player_fight_text = font.render(str(f'[{player.player_damage}] for {monster.name}'), True, (0, 0, 0))
         monster_fight_text = font.render(str(f'[{player.monster_damage}] for You'), True, (0, 0, 0))
 
         time.sleep(1)
+        
+        self.blit(player_image, (100, 100))
+        self.blit(heart_image, (100, 220))
+        self.blit(player_health, (150, 230))
+        self.blit(vs_image, (240, 100))
+        self.blit(monster_image, (420, 100))
+        self.blit(heart_image, (420, 220))
+        self.blit(monster_health, (470, 230))
 
-        self.blit(player_fight_text, (150, 300))
-        self.blit(monster_fight_text, (150, 330))
+        self.blit(player_fight_text, (200, 300))
+        self.blit(monster_fight_text, (200, 350))
 
-        self.blit(player_health, (200 - BLOCK_SIZE, 250))
-        self.blit(monster_health, (400 - BLOCK_SIZE, 250)) 
+        if self.game.player.health <= 0:
+            game_over_text = set_text('Your health is zone, You die. Game over')
+            self.blit(game_over_text, (250, 300))
+        elif self.game.player.encountered_monster.health <= 0:
+            monster_die_text = set_text('The monster is die, You won')
+            self.blit(monster_die_text, (250, 300))
 
-        self.blit(player_image, (200 - BLOCK_SIZE, 150))
-        self.blit(monster_image, (400 - BLOCK_SIZE, 150))
-        self.blit(heart_image, (200 - BLOCK_SIZE, 200))
-        self.blit(heart_image, (400 - BLOCK_SIZE, 200))
-        self.blit(vs_image, (300 - BLOCK_SIZE, 150))
-
-        super().draw(self)    
+        super().draw(self)

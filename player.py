@@ -14,6 +14,8 @@ class Player:
         self.pos_y = INIT_POS_Y
         self.health = PLAYER_HEALTH
         self.gold = 100
+        self.attack = 10
+        self.defense = 5
 
         self.fight_flag = False
         self.encountered_flag = False
