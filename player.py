@@ -53,19 +53,18 @@ class Player:
                 self.gold -= value
                 self.armaments[name] = armament
                 if attribute == 'weapon':
+                    print(f'attribute: {attribute}')
                     amount -= 1
                     self.armaments[name] = Weapon(self.game, name,  path, value, amount, sort, attribute)
                 elif attribute == 'armor':
                     amount -= 1
                     self.armaments[name] = Armor(self.game, name,  path, value, amount, sort, attribute)
                 self.purchased_items[name] = True
+                self.update_attribute(armament)
+
             elif self.gold < value:
                 print('money is less')
         
-
-    def add_armament(self):
-        pass
-
         
     def check_collision(self):
         if (self.pos_x, self.pos_y) in self.game.object_handle.barriers.keys():
@@ -94,11 +93,9 @@ class Player:
             self.fight_flag = False
             self.health = PLAYER_HEALTH
             return
-
-        print(self.game.object_handle.monsters)
-
-        self.player_damage = random.randint(0, 10)
-        self.monster_damage = random.randint(0, 15)
+        
+        self.player_damage = self.attack + monster.defense
+        self.monster_damage = monster.attack + self.defense
         monster.health -= self.player_damage
         self.health -= self.monster_damage
 
@@ -138,6 +135,14 @@ class Player:
     @property
     def pos(self):
         return self.pos_x, self.pos_y
+    
+
+    def update_attribute(self, armament):
+            name, path, value, amount, sort, attribute = armament.get()
+            if sort == 'weapon':
+                self.attack += attribute
+            elif sort == 'armor':
+                self.defense += attribute
 
 
     def update(self):
