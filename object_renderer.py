@@ -52,4 +52,5 @@ class ObjectRenderer:
             0: self.get_texture('resources/floor.jpg'),
             1: self.get_texture('resources/mosaic1.jpg'),
             2: self.get_texture('resources/fire2.jpg'),
+            # 10: self.get_texture('resources/black_hole.png')
         }

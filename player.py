@@ -35,7 +35,6 @@ class Player:
         buttons = self.game.merchant_panel.buttones
         for button, rect in buttons.items():
             if rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed().index(0) == 1:
-                print(pygame.mouse.get_pos())
                 if button == 'quit':
                     self.encountered_flag = False
                     self.pos_x += BLOCK_SIZE
@@ -53,7 +52,6 @@ class Player:
                 self.gold -= value
                 self.armaments[name] = armament
                 if attribute == 'weapon':
-                    print(f'attribute: {attribute}')
                     amount -= 1
                     self.armaments[name] = Weapon(self.game, name,  path, value, amount, sort, attribute)
                 elif attribute == 'armor':

@@ -6,7 +6,7 @@ from setting import *
 _ = False
 
 MINI_MAP = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _, _, _, _, _],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, _, _, _, _, _],
     [1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1, _, _, _, _, _],
     [1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1, _, _, _, _, _],
     [1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1, _, _, _, _, _],
@@ -34,15 +34,6 @@ class Map():
         self.game = game
         self.world_map = {}
         self.get_map()
-        
-    
-    # def draw(self):
-    #     for i, row in enumerate(MINI_MAP):
-    #         for j, col in enumerate(row):
-    #             if MINI_MAP[i][j] == 1:
-    #                 pygame.draw.rect(self.game.screen, 'gray', (j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), BLOCK_SIZE)
-    #             elif MINI_MAP[i][j] == _:
-    #                 pygame.draw.rect(self.game.screen, 'black', (j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), BLOCK_SIZE)
 
 
     def get_map(self):
