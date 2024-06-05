@@ -28,8 +28,8 @@ class ObjectHandle:
     
     def add_monster(self):
         monster_data = [
-            (self.monster_path + 'dog1.png', (200, 200), 'Dog1', 20),
-            (self.monster_path + 'dog2.png', (400, 200), 'Dog2', 50),
+            (self.monster_path + 'dog1.png', (200, 200), 'Dog1', 100),
+            (self.monster_path + 'dog2.png', (400, 200), 'Dog2', 100),
         ]
         for path, pos, name, health in monster_data:
             monster = Monster(self.game, path, pos, name, health)

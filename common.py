@@ -1,4 +1,6 @@
 import pygame
+import random
+import time
 
 from setting import *
 
@@ -25,3 +27,9 @@ def load_iamge(path, width=BLOCK_SIZE, height=BLOCK_SIZE):
 def set_text(text, size=20, color='black'):
     font = pygame.font.Font(None, size)
     return font.render(str(text), True, color)
+
+
+def set_random(percentage, number):
+    n = random.randint(number - number * (percentage // 100), number + number * (percentage // 100))
+    print(n)
+    return n

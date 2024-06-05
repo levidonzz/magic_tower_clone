@@ -5,6 +5,7 @@ import random
 from setting import *
 from sprite import Monster, Merchant
 from armament import Weapon, Armor
+from common import set_random
 
 
 class Player:
@@ -88,12 +89,13 @@ class Player:
         if monster.health <= 0:
             del(self.game.object_handle.barriers[(self.pos_x, self.pos_y)])
             self.game.object_handle.monster_group.remove(monster)
+            self.gold += monster.value
             self.fight_flag = False
             self.health = PLAYER_HEALTH
             return
         
-        self.player_damage = self.attack + monster.defense
-        self.monster_damage = monster.attack + self.defense
+        self.player_damage = set_random(20, self.attack) + set_random(20, monster.defense)
+        self.monster_damage = set_random(20, monster.attack) + set_random(20, self.defense)
         monster.health -= self.player_damage
         self.health -= self.monster_damage
 
