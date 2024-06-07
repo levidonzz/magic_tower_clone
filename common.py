@@ -30,6 +30,4 @@ def set_text(text, size=20, color='black'):
 
 
 def set_random(percentage, number):
-    n = random.randint(number - number * (percentage // 100), number + number * (percentage // 100))
-    print(n)
-    return n
+    return random.randint(number - number * (percentage // 100), number + number * (percentage // 100))
