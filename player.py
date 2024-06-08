@@ -144,6 +144,10 @@ class Player:
             elif sort == 'armor':
                 self.defense += attribute
 
+    
+    def up(self):
+        pass
+
 
     def update(self):
         self.move()
