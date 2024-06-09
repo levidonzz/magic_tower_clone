@@ -42,6 +42,3 @@ class Map():
                 if value:
                     self.world_map[(i, j)] = value
 
-
-    def update(self):
-        pass
